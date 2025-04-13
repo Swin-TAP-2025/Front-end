@@ -1,0 +1,19 @@
+{
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/vue3-essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "@babel/eslint-parser",
+      "babelOptions": {
+        "configFile": "./babel.config.js"
+      }
+    },
+    "rules": {
+      // 나중에 필요한 규칙이 있다면 여기에 추가할 수 있습니다.
+    }
+  }
