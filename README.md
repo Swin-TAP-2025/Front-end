@@ -1,12 +1,17 @@
 # mg4
-
+Working with VScode vue3
 ## Project setup
 ```
-npm install
+npm install -g @vue/cli
+npm install axios
 ```
-
+Create project on VScode terminal
+```
+vue create [project name]
+```
 ### Compiles and hot-reloads for development
 ```
+cd your project folder
 npm run serve
 ```
 
@@ -15,10 +20,6 @@ npm run serve
 npm run build
 ```
 
-### Lints and fixes files
-```
-npm run lint
-```
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
