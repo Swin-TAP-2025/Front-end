@@ -1,4 +1,4 @@
-# mg4: Front-end donor by Chaeyeon
+# mg4: Front-end for donor by Chaeyeon
 Working with VScode vue3
 ## Project setup
 ```
