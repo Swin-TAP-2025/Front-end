@@ -95,13 +95,12 @@
           </p>
         </div>
       </div>
-      {/* --- /사용자 정보 입력 --- */}
       <!--DONATE NOW Button (functionality in next step)-->
       <button @click="initiateDonation" :disabled="finalAmount <= 0" style="margin-top: 20px; padding: 10px 20px; font-size: 16px; cursor: pointer;" :style="{ opacity: finalAmount <= 0 ? 0.5 : 1 }">
         Donate Now
       </button>
 
-      {/* Temporary Event ID display */}
+      <!--Temporary Event ID display-->
       <p style="margin-top: 30px; font-size: 0.8em; color: grey;">Event ID: {{ eventId }}</p>
     </div>
     <div v-else>
@@ -159,15 +158,25 @@ export default {
         this.eventData = response.data;
         console.log('Received event data:', this.eventData);
 
-        // Optional: Adjust initial selectedOptionValue based on suggestedMinimumDonation
-        // Example: if minimum is $10, set default selection to $10 if current default is less.
-        const minDonation = parseFloat(this.eventData.suggestedMinimumDonation);
-        const currentSelection = parseFloat(this.selectedOptionValue);
-         if (!isNaN(minDonation) && this.selectedOptionValue !== 'custom' && !isNaN(currentSelection) && minDonation > currentSelection) {
-           // Find the first preset option >= minDonation or keep minimum itself? For simplicity, let's just ensure it's not below minimum for now.
-           // Or, maybe just display the minimum suggestion and let user choose freely from presets.
-           // Let's keep the default selection simple for now. User sees suggestion and chooses.
+         // --- Set default dropdown value based on suggestion ---
+         if (this.eventData && this.eventData.suggestedMinimumDonation > 0) {
+          const suggestedAmount = parseFloat(this.eventData.suggestedMinimumDonation);
+          // Check if the suggested amount is one of our preset options
+          const presetOptions = [5,10,20,30,40,50]; // Preset values in the dropdown
+          if (!isNaN(suggestedAmount) && presetOptions.includes(suggestedAmount)) {
+            // If suggestion is a preset option, set it as default
+            this.selectedOptionValue = suggestedAmount;
+            console.log(`Set default donation amount to suggested: $${suggestedAmount}`);
+          } else if (!isNaN(suggestedAmount)) {
+            // If suggestion is not a preset, maybe default to custom and prefill? Or just default to the lowest preset?
+            // Let's default to the lowest preset ($5) for simplicity if suggestion isn't a preset.
+            // Or you could decide to set it to 'custom' and prefill customAmount.
+            // this.selectedOptionValue = 'custom';
+            // this.customAmount = suggestedAmount;
+            console.log(`Suggested amount A$${suggestedAmount} is not a preset option. Defaulting to A$${this.selectedOptionValue}.`);
+          }
         }
+        // --- End of default value setting ---
 
       } catch (err) {
         console.error('API call error:', err);
@@ -193,17 +202,73 @@ export default {
     },
 
     // --- Initiate Donation Method (Placeholder) ---
-    initiateDonation() {
-      // This method will be called when "Donate Now" is clicked
-      // Next step: Implement logic to call the backend API for payment processing (e.g., create Stripe Checkout session)
-      console.log(`Initiating donation for: ${this.formatCurrency(this.finalAmount)}`);
-      console.log('Selected Option Value:', this.selectedOptionValue);
-      console.log('Custom Amount:', this.customAmount);
-      console.log('Final Amount:', this.finalAmount);
+    async initiateDonation() {
+      
+    if (this.finalAmount <= 0) {
+      alert('Please select or enter a valid donation amount.');
+      return;
+    }
 
-      // Prevent actual submission for now
-      alert(`Ready to donate ${this.formatCurrency(this.finalAmount)}! (Payment integration next)`);
-    },
+    console.log(`Attempting to donate: ${this.formatCurrency(this.finalAmount)}`);
+    this.isLoading = true; // Indicate loading state (optional)
+    this.error = null;     // Clear previous errors
+
+    try {
+      const donationAmount = this.finalAmount; 
+
+      // Set the redirect URL (our thank you page)
+      // Use window.location.origin to get the base URL (e.g., http://localhost:8080)
+      const redirectUrl = `${window.location.origin}/thank-you`;
+
+      // Prepare the request body
+      const requestBody = {
+        amount: donationAmount,
+        redirectUrl: redirectUrl
+      };
+
+      // Prepare the API endpoint URL
+      const apiUrl = `https://tap-2025-455910.ts.r.appspot.com/api/donation/${this.eventId}`;
+
+      console.log('--- Before calling API ---');
+      console.log('API Endpoint URL:', apiUrl); // Display API
+      console.log('Request Body to send:', requestBody); // Display request body
+      alert('Check console before redirecting'); 
+
+      // --- Call the backend API ---
+      const response = await axios.post(apiUrl, requestBody);
+      console.log('API Response:', response.data);
+
+      // --- Redirect to Stripe Payment Link ---
+      if (response.data && response.data.stripePaymentLink) {
+        // Get the payment link from the response
+        const paymentLink = response.data.stripePaymentLink;
+        console.log('Redirecting to Stripe:', paymentLink);
+
+        // Redirect the user's browser to the Stripe page
+        window.location.href = paymentLink;
+
+        // We don't set isLoading = false here because the page will navigate away.
+
+      } else {
+        // Handle cases where the payment link is missing in the response
+        console.error('Stripe Payment Link not found in response');
+        this.error = 'Could not retrieve payment link. Please try again.';
+        this.isLoading = false;
+      }
+
+    } catch (err) {
+      console.error('Error initiating donation:', err);
+      // Display a user-friendly error message
+      this.error = 'An error occurred while starting the donation process. Please try again.';
+      if (err.response) {
+        // Handle specific backend errors if needed
+        console.error('Backend Error:', err.response.data);
+        this.error = `Error: ${err.response.data.message || 'Failed to initiate donation.'}`;
+      }
+      this.isLoading = false; // Stop loading indicator on error
+    }
+    // No finally block needed for isLoading = false if redirecting on success
+  },
 
     saveCurrentDetailsToLocalStorage() {
     // 익명이 아닐 때만 저장하는 것을 다시 확인 (이 시점엔 당연히 false겠지만)

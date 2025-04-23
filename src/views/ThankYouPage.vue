@@ -1,6 +1,6 @@
 <template>
     <div>
-      <h1>캄사</h1>
+      <h1>Test, email</h1>
       <p>Thanks</p>
     </div>
   </template>
