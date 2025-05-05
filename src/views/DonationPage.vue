@@ -1,87 +1,103 @@
 <template>
   <div class="donation-page">
+    <!-- loading display -->
     <div v-if="isLoading">
-      <p>Loading event details...</p>
+      <p>Loading event details...</p> 
     </div>
+    <!-- error display -->
     <div v-else-if="error">
-      <p>Error: {{ error }}</p>
+      <p>Error: {{ error }}</p> 
     </div>
+    <!-- Load event data -->
     <div v-else-if="eventData">
-      Charity Logo and Name
-      <div v-if="eventData.charity">
+      <!-- Header info -->
+      <div class="header-info" style="text-align: center; margin-bottom: 20px;">
+        <!-- Charity logo) -->
         <img
-          v-if="eventData.charity._id"
+          v-if="eventData.charity && eventData.charity._id"
           :src="`https://tap-2025-455910.ts.r.appspot.com/api/image/charity/${eventData.charity._id}`"
           :alt="`${eventData.charity.name} Logo`"
-          width="150"
+          @error="hideImageOnError"
+          style="max-width: 120px; height: auto; display: block; margin: 0 auto 10px auto; border: 1px solid #eee;"
         >
-        <h2>{{ eventData.charity.name }}</h2>
+        <!-- Charity name -->
+        <h2 v-if="eventData.charity">{{ eventData.charity.name }}</h2>
+
+        <!-- Event image -->
+        <img
+            :src="`https://tap-2025-455910.ts.r.appspot.com/api/image/event/${eventId}`"
+            :alt="`${eventData.name} Image`"
+            style="max-width: 100%; height: auto; margin-top: 15px; border-radius: 8px;"
+          >
+        <h1>{{ eventData.name }}</h1>
       </div>
       <hr>
 
-      <!--Event Name and Description-->
-      <h1>{{ eventData.name }}</h1>
       <p>{{ eventData.description }}</p>
       <hr>
 
-      <h2>Select Donation Amount</h2>
-      <!--Suggested Minimum Donation (Optional Display)-->
+      <!-- Select amount of donation -->
+      <h2>Select Donation Amount</h2> 
       <p v-if="eventData.suggestedMinimumDonation > 0">
-        Suggested minimum donation: {{ formatCurrency(eventData.suggestedMinimumDonation) }}
+        Suggested minimum donation: {{ formatCurrency(eventData.suggestedMinimumDonation) }} 
       </p>
-      <!--Amount dropdown-->
+      <!-- Dropdown -->
       <select v-model="selectedOptionValue" style="padding: 8px; margin-bottom: 10px; width: 200px;">
-        <option :value="5">$ 5.00</option>
-        <option :value="10">$ 10.00</option>
-        <option :value="20">$ 20.00</option>
-        <option :value="30">$ 30.00</option>
-        <option :value="40">$ 40.00</option>
-        <option :value="50">$ 50.00</option>
-        <option value="custom">Enter custom amount</option>
+        <option :value="1">$1</option>
+        <option :value="3">$3</option>
+        <option :value="5">$5</option>
+        <option :value="10">$10</option>
+        <option :value="20">$20</option>
+        <option :value="50">$50</option>
+        <option :value="100">$100</option>
+        <option value="custom">Enter custom amount</option> 
       </select>
 
-      <!--Custom Amount Input Field (visible only if 'custom' is selected)-->
+      <!-- custom field -->
       <div v-if="selectedOptionValue === 'custom'">
-        <span style="margin-right: 5px;">A$</span>
         <input
           type="number"
           v-model.number="customAmount"
-          placeholder="Enter amount"
+          placeholder="Enter amount" 
           style="padding: 8px; width: 150px;"
           min="1" step="1" 
-          @input="handleCustomInput" 
         >
       </div>
 
+      <!-- Showing amount -->
       <p style="margin-top: 15px; font-weight: bold;">
-        Selected amount: {{ formatCurrency(finalAmount) }}
+        Selected amount: {{ formatCurrency(finalAmount) }} 
       </p>
 
+      <!-- Donor input field (Optional) -->
       <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
-        <h2>Your Details (Optional)</h2>
+        <h2>Your Details (Optional)</h2> 
         <p style="font-size: 0.9em; color: grey; margin-bottom: 15px;">
-          Providing your details helps us acknowledge your donation. Stored locally in your browser for convenience.
+          Providing your details helps us acknowledge your donation. Stored locally in your browser for convenience. 
         </p>
+        <!-- Name -->
         <div style="margin-bottom: 15px;">
-          <label for="donorName" style="display: block; margin-bottom: 5px;">Name:</label>
+          <label for="donorName" style="display: block; margin-bottom: 5px;">Name:</label> 
           <input
             type="text"
             id="donorName"
             v-model="donorName"
-            placeholder="Enter your name"
+            placeholder="Enter your name" 
             style="padding: 8px; width: 95%; max-width: 400px;"
           >
         </div>
+        <!-- Email -->
         <div style="margin-bottom: 15px;">
-          <label for="donorEmail" style="display: block; margin-bottom: 5px;">Email:</label>
+          <label for="donorEmail" style="display: block; margin-bottom: 5px;">Email:</label> 
           <input
             type="email"
             id="donorEmail"
             v-model="donorEmail"
-            placeholder="Enter your email address"
+            placeholder="Enter your email address" 
             style="padding: 8px; width: 95%; max-width: 400px;"
           >
         </div>
+        <!-- Donate anonymously check box -->
         <div style="margin-top: 15px;">
           <input
             type="checkbox"
@@ -89,248 +105,254 @@
             v-model="isAnonymous"
             style="margin-right: 8px;"
           >
-          <label for="anonymousCheck">Donate anonymously</label>
+          <label for="anonymousCheck">Donate anonymously</label> 
           <p v-if="isAnonymous" style="font-size: 0.8em; color: grey; margin-top: 5px;">
-            Your name and email will not be stored or shared.
+            Your name and email will not be stored or shared. 
           </p>
         </div>
       </div>
-      <!--DONATE NOW Button (functionality in next step)-->
+
+      <!-- Donate button -->
       <button @click="initiateDonation" :disabled="finalAmount <= 0" style="margin-top: 20px; padding: 10px 20px; font-size: 16px; cursor: pointer;" :style="{ opacity: finalAmount <= 0 ? 0.5 : 1 }">
-        Donate Now
+        Donate Now 
       </button>
 
-      <!--Temporary Event ID display-->
+      <!-- Event id for debugging -->
       <p style="margin-top: 30px; font-size: 0.8em; color: grey;">Event ID: {{ eventId }}</p>
     </div>
+    <!-- if event id not found -->
     <div v-else>
-      <p>Event information not found.</p>
+      <p>Event information not found.</p> 
     </div>
   </div>
 </template>
-  
+
 <script>
-import axios from 'axios';
+import axios from 'axios'; // Import the axios library for API communication
 
 export default {
-  name: 'DonationPage',
-  props: {
-    eventId: {
-      type: String,
-      required: true
+  name: 'DonationPage', // Define the component name
+  props: { // Define data passed from parent (router)
+    eventId: { // Event ID passed as a URL parameter
+      type: String, // Type is String
+      required: true // This value is required
     }
   },
-  data() {
+  data() { // Define the component's internal data
     return {
-      eventData: null,
-      isLoading: false,
-      error: null,
-      selectedOptionValue: 5,
-      customAmount: null,
-      // --- 사용자 정보 데이터 추가 ---
-      donorName: '', // 이름 저장 (초기값 빈 문자열)
-      donorEmail: '', // 이메일 저장 (초기값 빈 문자열)
-      isAnonymous: false // 초기값은 false (익명 아님)
+      eventData: null, // Stores the event details received from the API
+      isLoading: false, // Data loading state (true: loading, false: finished loading)
+      error: null, // Stores error messages
+      selectedOptionValue: 5, // Selected value in the dropdown (default: $5)
+      customAmount: null, // Amount entered directly
+      donorName: '', // Name entered by the user
+      donorEmail: '', // Email entered by the user
+      isAnonymous: false // Anonymous donation checkbox state (default: false)
     };
   },
-  computed: {
+  computed: { // Define computed properties based on data
     // Calculate the final donation amount
     finalAmount() {
-      if (this.selectedOptionValue === 'custom') {
-        // If 'custom' is selected and a valid number is entered, use it
-        // Ensure customAmount is treated as a number
+      if (this.selectedOptionValue === 'custom') { // If 'custom' option is selected
+        // Try to convert the customAmount input to a number
         const amount = parseFloat(this.customAmount);
+        // If it's a valid positive number, use it; otherwise, return 0
         return !isNaN(amount) && amount > 0 ? amount : 0;
-      } else {
-        // Otherwise, use the value selected from the dropdown (convert to number)
+      } else { // If a fixed amount is selected from the dropdown
+        // Try to convert the selectedOptionValue to a number
         const amount = parseFloat(this.selectedOptionValue);
+        // If it's a valid number, use it; otherwise, return 0
         return !isNaN(amount) ? amount : 0;
       }
     }
   },
-  methods: {
+  methods: { // Define methods (functions) used within the component
+    // Fetch event details from the backend API
     async fetchEventData() {
-      this.isLoading = true;
-      this.error = null;
+      this.isLoading = true; // Start loading state
+      this.error = null; // Reset previous errors
       try {
+        // Construct the API endpoint URL
         const apiUrl = `https://tap-2025-455910.ts.r.appspot.com/api/event/${this.eventId}`;
+        // Send GET request and wait for the response
         const response = await axios.get(apiUrl);
+        // Store the response data in eventData
         this.eventData = response.data;
-        console.log('Received event data:', this.eventData);
+        // console.log('Received event data:', this.eventData); // Log for debugging, remove or comment out later
 
          // --- Set default dropdown value based on suggestion ---
          if (this.eventData && this.eventData.suggestedMinimumDonation > 0) {
           const suggestedAmount = parseFloat(this.eventData.suggestedMinimumDonation);
-          // Check if the suggested amount is one of our preset options
-          const presetOptions = [5,10,20,30,40,50]; // Preset values in the dropdown
+          // List of fixed amount options in the dropdown (matches template)
+          const presetOptions = [5, 10, 20, 50]; // Corrected list
           if (!isNaN(suggestedAmount) && presetOptions.includes(suggestedAmount)) {
-            // If suggestion is a preset option, set it as default
+            // If suggested amount is one of the preset options, set it as the default
             this.selectedOptionValue = suggestedAmount;
-            console.log(`Set default donation amount to suggested: $${suggestedAmount}`);
+            // console.log(`Set default donation amount to suggested: A$${suggestedAmount}`); // Log for debugging, remove or comment out later
           } else if (!isNaN(suggestedAmount)) {
-            // If suggestion is not a preset, maybe default to custom and prefill? Or just default to the lowest preset?
-            // Let's default to the lowest preset ($5) for simplicity if suggestion isn't a preset.
-            // Or you could decide to set it to 'custom' and prefill customAmount.
-            // this.selectedOptionValue = 'custom';
-            // this.customAmount = suggestedAmount;
-            console.log(`Suggested amount A$${suggestedAmount} is not a preset option. Defaulting to A$${this.selectedOptionValue}.`);
+            // Handle case where suggested amount isn't a preset option (currently keeps default $5)
+            // console.log(`Suggested amount A$${suggestedAmount} is not a preset option. Defaulting to A$${this.selectedOptionValue}.`); // Log for debugging, remove or comment out later
           }
         }
         // --- End of default value setting ---
 
       } catch (err) {
-        console.error('API call error:', err);
-        this.error = 'Failed to load event details.';
+        // Handle API call failure
+        console.error('API call error:', err); // Keep error log for debugging
+        this.error = 'Failed to load event details.'; // Default error message for the user
         if (err.response && err.response.status === 404) {
-          this.error = 'Event not found.';
+          this.error = 'Event not found.'; // Specific message for 404 error
         }
       } finally {
-        this.isLoading = false;
+        this.isLoading = false; // End loading state
       }
     },
 
-    // --- Currency Formatting Method (AUD) ---
+    // --- Format number as currency (no symbol, two decimal places) ---
     formatCurrency(value) {
       if (value === null || typeof value !== 'number' || isNaN(value)) {
-        return 'A$ 0.00'; // Return zero if invalid
+        return '0.00'; // Return 0.00 if invalid
       }
-      // Use Intl.NumberFormat for proper AUD formatting
-      return new Intl.NumberFormat('en-AU', {
-        style: 'currency',
-        currency: 'AUD'
-      }).format(value);
+      // Use toFixed(2) to always display two decimal places
+      return value.toFixed(2);
     },
 
-    // --- Initiate Donation Method (Placeholder) ---
+    // --- Handle image loading errors ---
+    hideImageOnError(event) {
+      // Hide the image element if it fails to load
+      console.warn('Failed to load charity logo, hiding image element.'); // Keep console warning
+      event.target.style.display = 'none';
+    },
+
+    // --- Initiate donation (Stripe integration) ---
     async initiateDonation() {
-      
-    if (this.finalAmount <= 0) {
-      alert('Please select or enter a valid donation amount.');
-      return;
-    }
-
-    console.log(`Attempting to donate: ${this.formatCurrency(this.finalAmount)}`);
-    this.isLoading = true; // Indicate loading state (optional)
-    this.error = null;     // Clear previous errors
-
-    try {
-      const donationAmount = this.finalAmount; 
-
-      // Set the redirect URL (our thank you page)
-      // Use window.location.origin to get the base URL (e.g., http://localhost:8080)
-      const redirectUrl = `${window.location.origin}/thank-you`;
-
-      // Prepare the request body
-      const requestBody = {
-        amount: donationAmount,
-        redirectUrl: redirectUrl
-      };
-
-      // Prepare the API endpoint URL
-      const apiUrl = `https://tap-2025-455910.ts.r.appspot.com/api/donation/${this.eventId}`;
-
-      console.log('--- Before calling API ---');
-      console.log('API Endpoint URL:', apiUrl); // Display API
-      console.log('Request Body to send:', requestBody); // Display request body
-      alert('Check console before redirecting'); 
-
-      // --- Call the backend API ---
-      const response = await axios.post(apiUrl, requestBody);
-      console.log('API Response:', response.data);
-
-      // --- Redirect to Stripe Payment Link ---
-      if (response.data && response.data.stripePaymentLink) {
-        // Get the payment link from the response
-        const paymentLink = response.data.stripePaymentLink;
-        console.log('Redirecting to Stripe:', paymentLink);
-
-        // Redirect the user's browser to the Stripe page
-        window.location.href = paymentLink;
-
-        // We don't set isLoading = false here because the page will navigate away.
-
-      } else {
-        // Handle cases where the payment link is missing in the response
-        console.error('Stripe Payment Link not found in response');
-        this.error = 'Could not retrieve payment link. Please try again.';
-        this.isLoading = false;
+      // Validate the final donation amount (prevent 0 or less)
+      if (this.finalAmount <= 0) {
+        alert('Please select or enter a valid donation amount.'); // Alert the user
+        return; // Exit the function
       }
 
-    } catch (err) {
-      console.error('Error initiating donation:', err);
-      // Display a user-friendly error message
-      this.error = 'An error occurred while starting the donation process. Please try again.';
-      if (err.response) {
-        // Handle specific backend errors if needed
-        console.error('Backend Error:', err.response.data);
-        this.error = `Error: ${err.response.data.message || 'Failed to initiate donation.'}`;
+      if (!Number.isInteger(this.finalAmount)) {
+        alert('Please enter a whole dollar amount without cents for custom donations.'); 
+        return;
       }
-      this.isLoading = false; // Stop loading indicator on error
-    }
-    // No finally block needed for isLoading = false if redirecting on success
-  },
 
+      // console.log(`Attempting to donate: ${this.formatCurrency(this.finalAmount)}`); // Log donation attempt (can remove later)
+      this.isLoading = true; // Start loading state (optional)
+      this.error = null;     // Reset previous errors
+
+      try {
+        // --- Prepare data for the backend API request ---
+        // Assumes amount unit is confirmed with Fai (dollar amount number)
+        const donationAmount = this.finalAmount;
+        // Set the redirect URL (thank you page)
+        // Uses the base part of the current website address (e.g., http://localhost:8080)
+        const redirectUrl = `${window.location.origin}/thank-you`;
+        // Create the request body object
+        const requestBody = {
+          amount: donationAmount,
+          redirectUrl: redirectUrl
+        };
+        // Construct the API endpoint URL
+        const apiUrl = `https://tap-2025-455910.ts.r.appspot.com/api/donation/${this.eventId}`;
+
+        // console.log('--- Before calling API ---'); // Remove or comment out after debugging
+        // console.log('API Endpoint URL:', apiUrl);
+        // console.log('Request Body to send:', requestBody);
+
+        // --- Call the backend API (POST) ---
+        const response = await axios.post(apiUrl, requestBody);
+        // console.log('API Response:', response.data); // Remove or comment out after debugging
+
+        // --- Redirect to Stripe Payment Link ---
+        if (response.data && response.data.stripePaymentLink) {
+          // Extract the payment link from the response
+          const paymentLink = response.data.stripePaymentLink;
+          // console.log('Redirecting to Stripe:', paymentLink); // Keep redirection log maybe?
+          // Redirect the user's browser to the Stripe payment page
+          window.location.href = paymentLink;
+          // No need to set isLoading=false here as the page navigates away
+        } else {
+          // Handle case where payment link is missing in the response
+          console.error('Stripe Payment Link not found in response'); // Keep error log
+          this.error = 'Could not retrieve payment link. Please try again.'; // User error message
+          this.isLoading = false; // End loading state
+        }
+
+      } catch (err) {
+        // Handle errors during donation initiation
+        console.error('Error initiating donation:', err); // Keep error log
+        // Error message for the user
+        this.error = 'An error occurred while starting the donation process. Please try again.';
+        if (err.response) { // Check if there's a specific error message from the backend
+          console.error('Backend Error:', err.response.data); // Keep backend error log
+          // Use backend message if available, otherwise use default message
+          this.error = `Error: ${err.response.data.message || 'Failed to initiate donation.'}`;
+        }
+        this.isLoading = false; // End loading state on error
+      }
+    },
+
+    // --- Save current details to Local Storage (called when unchecking anonymous) ---
     saveCurrentDetailsToLocalStorage() {
-    // 익명이 아닐 때만 저장하는 것을 다시 확인 (이 시점엔 당연히 false겠지만)
-    if (!this.isAnonymous) {
-      console.log('Saving current details to localStorage after unchecking anonymous.');
-      localStorage.setItem('donorName', this.donorName);
-      localStorage.setItem('donorEmail', this.donorEmail);
+      // Only save if not anonymous
+      if (!this.isAnonymous) {
+        // console.log('Saving current details to localStorage after unchecking anonymous.'); // Remove or comment out after debugging
+        localStorage.setItem('donorName', this.donorName);
+        localStorage.setItem('donorEmail', this.donorEmail);
+      }
     }
-  }
-    
+
   },
 
-  watch: {
-    // donorName 변경 감지
+  watch: { // Watch for data changes
+    // Watch for changes in donorName
     donorName(newName) {
-      // 익명이 아닐 때만 Local Storage에 저장
+      // Save to Local Storage only if not anonymous
       if (!this.isAnonymous) {
-        console.log('Saving donorName to localStorage:', newName);
+        // console.log('Saving donorName to localStorage:', newName); // Remove or comment out after debugging
         localStorage.setItem('donorName', newName);
       }
     },
-    // donorEmail 변경 감지
+    // Watch for changes in donorEmail
     donorEmail(newEmail) {
-      // 익명이 아닐 때만 Local Storage에 저장
+      // Save to Local Storage only if not anonymous
       if (!this.isAnonymous) {
-        console.log('Saving donorEmail to localStorage:', newEmail);
+        // console.log('Saving donorEmail to localStorage:', newEmail); // Remove or comment out after debugging
         localStorage.setItem('donorEmail', newEmail);
       }
     },
-    // --- isAnonymous 변경 감지 (선택 사항: 체크 시 저장된 정보 삭제) ---
+    // Watch for changes in isAnonymous state
     isAnonymous(isNowAnonymous) {
-      console.log('Anonymous status changed:', isNowAnonymous);
-      if (isNowAnonymous) {
-        // 익명으로 변경되면 Local Storage에서 정보 삭제
-        console.log('Removing donor info from localStorage due to anonymity.');
+      // console.log('Anonymous status changed:', isNowAnonymous); // Remove or comment out after debugging
+      if (isNowAnonymous) { // If changed to anonymous
+        // Remove info from Local Storage
+        console.log('Removing donor info from localStorage due to anonymity.'); // Keep this log
         localStorage.removeItem('donorName');
         localStorage.removeItem('donorEmail');
-        // 입력 필드를 비우는 것은 선택 사항 (사용자 경험 고려)
-        // this.donorName = '';
-        // this.donorEmail = '';
-      } else {
-        this.saveCurrentDetailsToLocalStorage(); // <--- 이 메소드 호출
+      } else { // If changed back to non-anonymous
+        // Save the current field values back to Local Storage
+        this.saveCurrentDetailsToLocalStorage();
       }
     }
   },
 
-  mounted() {
-    console.log('DonationPage 마운트됨, 이벤트 ID:', this.eventId);
+  mounted() { // Executed when the component is mounted
+    // console.log('DonationPage mounted, Event ID:', this.eventId); // Remove or comment out after debugging
 
-    // Local Storage에서 값 불러오기 (기존 로직 유지)
-    // 익명 체크 여부와 관계없이 일단 채워주고,
-    // 익명 체크 시 저장/삭제 로직은 watch에서 처리
+    // Load name/email from Local Storage
     const savedName = localStorage.getItem('donorName');
     const savedEmail = localStorage.getItem('donorEmail');
     if (savedName) {
       this.donorName = savedName;
+      // console.log('Loaded donorName from localStorage:', savedName); // Remove or comment out after debugging
     }
     if (savedEmail) {
       this.donorEmail = savedEmail;
+      // console.log('Loaded donorEmail from localStorage:', savedEmail); // Remove or comment out after debugging
     }
-    // 저장된 익명 상태는 없으므로 로드하지 않음 (기본값 false 사용)
 
+    // Start fetching event details from the API
     this.fetchEventData();
   }
 }
