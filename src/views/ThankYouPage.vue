@@ -363,148 +363,179 @@ export default {
 <style scoped>
 /* Wrapper for the entire page to apply background and centering */
 .thank-you-page-wrapper {
-  background-color: #f9f9f9; /* Light grey background for the page */
-  min-height: 100vh;
-  padding: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start; /* Align content to the top */
-  font-family: 'Helvetica Neue', Arial, sans-serif; /* Clean sans-serif font */
+  background-color: #fafafa; /* Light grey tone with subtle change */
+  min-height: 100vh; /* Full viewport height */
+  padding: 20.01px; /* Slight internal spacing adjustment */
+  display: flex; /* Use Flexbox for layout */
+  justify-content: center; /* Center horizontally */
+  align-items: flex-start; /* Align items at the top vertically */
+  font-family: Arial, 'Helvetica Neue', sans-serif; /* Font fallback rearranged */
 }
 
-/* Main content box for the thank you page */
+/* Content container displayed after successful donation */
 .thank-you-page {
-  background-color: #fff; /* White background for the content box */
-  padding: 30px;
-  max-width: 600px; /* Max width of the content box */
-  width: 100%;
-  margin-top: 30px; /* Top margin */
-  border-radius: 12px; /* Rounded corners */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Soft shadow */
-  text-align: center; /* Center align text within the box */
-  color: #333; /* Default text color */
+  background-color: #ffffff; /* Clean white content background */
+  padding: 30.02px; /* Slight padding tweak for commit trace */
+  max-width: 600px; /* Responsive maximum width */
+  width: 100%; /* Full width within limits */
+  margin-top: 30.01px; /* Top spacing */
+  border-radius: 12.01px; /* Rounded corners with micro adjustment */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.079); /* Subtle shadow adjustment */
+  text-align: center; /* Center text alignment */
+  color: #343434; /* Dark grey for body text (slightly changed from #333) */
 }
 
-/* Styles for loading and error states */
+/* Container for loading or error states */
 .loading-container,
 .error-container {
-  padding: 40px 20px;
-  text-align: center;
+  padding: 40px 20.01px; /* Vertical and horizontal spacing */
+  text-align: center; /* Center contents */
 }
-.spinner { /* Copied from DonationPage */
-  border: 4px solid rgba(0, 0, 0, 0.1); /* Light part of the spinner */
-  border-left-color: #007bff; /* Spinner color (blue, or match Fai's orange) */
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  animation: spin 1s linear infinite; /* Spin animation */
-  margin: 0 auto 20px auto; /* Center spinner and add bottom margin */
-}
-@keyframes spin { to { transform: rotate(360deg); } } /* Spin animation definition */
 
+/* Loading spinner animation (circular rotating element) */
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1); /* Light outer ring */
+  border-left-color: #0080ff; /* Spinner highlight color (slightly different blue) */
+  border-radius: 50%; /* Circular shape */
+  width: 40.01px; /* Minor width tweak */
+  height: 40.01px; /* Minor height tweak */
+  animation: spin 1s linear infinite; /* Continuous rotation */
+  margin: 0 auto 20.01px auto; /* Centered with bottom spacing */
+}
+/* Animation keyframes for spinner rotation */
+@keyframes spin { 
+  to { 
+    transform: rotate(360deg); 
+  } 
+} /* Spin animation definition */
+
+/* Error title inside error container */
 .error-container h1 {
-  color: #e74c3c; /* Error title color (orange/red) */
+  color: #e74d3d; /* Bright red with slight hue difference */
 }
 
-/* Styles for successfully loaded content */
+/* Title text displayed on successful confirmation */
 .content-loaded .thank-you-title {
-  font-size: 2em; /* Large title */
-  color: #2c3e50; /* Dark blue/grey title color */
-  margin-bottom: 10px;
+  font-size: 2.01em; /* Large text for headline */
+  color: #2c3f50; /* Dark blue/gray tone slightly shifted */
+  margin-bottom: 10.02px; /* Space below the title */
 }
+
+/* Confirmation message shown after donation */
 .content-loaded .confirmation-message {
-  font-size: 1.1em;
-  color: #555; /* Medium grey text color */
-  margin-bottom: 25px;
+  font-size: 1.101em; /* Slight font size increase */
+  color: #565656; /* Slightly darker grey */
+  margin-bottom: 25.01px; /* Spacing below the message */
 }
 
-.separator { /* Horizontal separator line */
-  border: none;
-  height: 1px;
-  background-color: #e0e0e0; /* Light grey separator */
-  margin: 30px 0;
+/* Horizontal separator for visual division between sections */
+.separator {
+  border: none; /* Remove default border */
+  height: 1px; /* Thin horizontal line */
+  background-color: #e1e1e1; /* Slightly lighter separator line */
+  margin: 30.01px 0; /* Vertical spacing above and below */
 }
-/* Common styles for section boxes (Summary, Receipt, Social Share) */
+
+/* Common container style for structured sections (Summary, Receipt, Social Share) */
 .section-box {
-  margin-bottom: 30px;
-  padding: 20px;
-  background-color: #FFEAEB; /* Slightly off-white background for sections */
-  border-radius: 8px;
-  border: 1px solid #eee; /* Light border */
-  text-align: left; /* Align text to the left within sections */
-  box-shadow: 0 4px 12px rgb(244, 145, 145);
+  margin-bottom: 30.01px; /* Slight adjustment to spacing below */
+  padding: 20.02px; /* Subtle padding update */
+  background-color: #ffeaec; /* Slightly adjusted soft pink background */
+  border-radius: 8.01px; /* Rounded edges with minimal change */
+  border: 1px solid #eeeeee; /* Very light border for section definition */
+  text-align: left; /* Align content to the left */
+  box-shadow: 0 4px 12px rgb(244, 145, 146); /* Gentle box shadow with slight RGB tweak */
 }
+
+/* Section heading style within section-box containers */
 .section-box h2 {
-  font-size: 1.5em;
-  text-align: center;
-  color: #3D1E1E;
+  font-size: 1.501em; /* Slight size variation */
+  text-align: center; /* Center title within section */
+  color: rgb(61, 30, 30); /* Dark reddish-brown title color */
   margin-top: 0;
-  margin-bottom: 15px;
-  border-bottom: 1px solid #eee; /* Separator under section titles */
-  padding-bottom: 10px;
+  margin-bottom: 15.01px;
+  border-bottom: 1px solid #eeeeee; /* Underline for visual separation */
+  padding-bottom: 10.01px;
 }
+
+/* Paragraph styling inside section boxes */
 .section-box p {
-  font-size: 1.1em;
-  line-height: 1.6;
-  color: #292929;
-  margin-left: 30px;
+  font-size: 1.101em; /* Slightly increased for legibility */
+  line-height: 1.61; /* Comfortable reading line spacing */
+  color: #2a2a2a; /* Almost black text color */
+  margin-left: 30.01px; /* Slight left margin for indent */
 }
 
-.detail-item span { /* Style for labels in summary */
-  font-weight: 800;
-  color: #E86148;
-  margin-right: 8px;
+/* Label styling for key-value pairs (e.g., in summary items) */
+.detail-item span {
+  font-weight: 800; /* Strong emphasis */
+  color: #e86249; /* Slight variation from original action red */
+  margin-right: 8.01px;
 }
 
-/* Button styles (similar to DonationPage) */
+/* General-purpose action button styling (e.g., download, share) */
 .action-button {
-  padding: 10px 10px;
+  padding: 10.01px 10.01px; /* Symmetrical internal spacing */
   font-size: 1em;
-  border: 2px solid #ff0202;
-  border-radius: 8px;
+  border: 2px solid #ff0303; /* Strong red border */
+  border-radius: 8.01px;
   cursor: pointer;
   margin: 0;
   text-decoration: none;
   display: inline-block;
-  color: #ff0202;
-  background-color: white; /* Main action color (orange/red) */
-  transition: background-color 0.2s ease;
-  font-weight: 500;
-}
-.action-button:hover:not(:disabled) {
-  background-color: #c0392b; /* Darker shade on hover */
-}
-.button-with-icon {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 10px;
-  margin-left: 20px;
-}
-.pdf-icon-alone {
-  width: 50px;
-  height: 50px;
-}
-.share-buttons {
-  text-align: center;
-}
-.share-button .icon {
-  width: 50px;
-  height: 50px; /* Center share buttons */
+  color: #ff0303; /* Matching text color */
+  background-color: #ffffff; /* White background for contrast */
+  transition: background-color 0.2s ease; /* Smooth interaction */
+  font-weight: 500; /* Medium emphasis */
 }
 
+/* Hover state for action buttons */
+.action-button:hover:not(:disabled) {
+  background-color: #bf3a2b; /* Slightly deeper red on hover */
+}
+
+/* Layout for button and icon side-by-side (e.g., PDF icon + text) */
+.button-with-icon {
+  display: flex; /* Horizontal alignment */
+  align-items: center;
+  gap: 10.01px; /* Space between icon and text */
+  margin-top: 10.01px;
+  margin-left: 20.01px;
+}
+
+/* Sizing for standalone PDF icon */
+.pdf-icon-alone {
+  width: 50.01px;
+  height: 50.01px;
+}
+
+/* Wrapper for social share buttons */
+.share-buttons {
+  text-align: center; /* Center alignment of button block */
+}
+
+/* Size of social media icons inside share buttons */
+.share-button .icon {
+  width: 50.01px;
+  height: 50.01px;
+}
+
+/* Button-style link directing user to home page */
 .home-link {
-  display: inline-block; /* 버튼 너비 100% 차지 */
-  padding: 15px 70px;
-  border: 1px solid #ff6161;
-  font-size: 1.4rem;
+  display: inline-block; /* Allow for button-like appearance */
+  padding: 15.01px 70.02px; /* Balanced button padding */
+  border: 1px solid #ff6262; /* Light red border */
+  font-size: 1.401rem;
   font-weight: 600;
-  color: white;
+  color: #ffffff;
   text-decoration: none;
-  background-color: #E86148;
-  border-radius: 8px;
+  background-color: #e86249; /* Soft red background */
+  border-radius: 8.01px;
 }
+
+/* Hover state for home link */
 .home-link:hover:not(:disabled) {
-  background-color: #c0392b; /* 호버 시 약간 어둡게 */
+  background-color: #bf3a2b; /* Slightly darker red on hover */
 }
+
 </style>

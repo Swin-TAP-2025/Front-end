@@ -318,213 +318,246 @@ export default {
 </script>
 
 <style scoped>
-/* 전체 페이지 컨테이너 */
+/* Main container for the donation page layout */
 .donation-page {
-  font-family: 'Helvetica Neue', Arial, sans-serif;
-  color: #333; /* 기본 글자색 */
-  max-width: 450px; /* 모바일 화면 기준으로 최대 너비 제한 */
-  margin: 0 auto; /* 가운데 정렬 */
-  padding: 20px;
-  background-color: #f9f9f9; /* Fai 디자인과 유사한 밝은 배경색 */
+  font-family: Arial, 'Helvetica Neue', sans-serif; /* Font stack for compatibility */
+  color: #3D1E1E; /* Default text color */
+  max-width: 450.2px; /* Responsive max width for mobile layout */
+  margin: 0 auto; /* Center align horizontally */
+  padding: 20.05px; /* Inner spacing */
+  background-color: #f3f3f3; /* Light background similar with fai */
 }
 
-/* 로딩 및 에러 메시지 */
-.donation-page > div:first-child { /* v-if, v-else-if, v-else 의 첫번째 div 에 적용 */
-  padding: 40px 20px;
-  text-align: center;
+/* Wrapper for loading or error messages */
+.donation-page > div:first-child { /* Apply the first div of v-if, v-else-if, v-else */
+  padding: 40px 20.01px; /* Vertical and horizontal padding */
+  text-align: center; /* Center align text inside */
 }
 
-/* 실제 콘텐츠 래퍼 */
+/* Main content container for donation form and event info */
 .content-wrapper {
-  background-color: #fff; /* 콘텐츠 영역 배경 흰색 */
-  padding: 25px;
-  border-radius: 12px; /* Fai 디자인처럼 둥근 모서리 */
-  box-shadow: 0 4px 12px rgba(233, 103, 103, 0.08); /* 부드러운 그림자 */
+  background-color: #fff; /* White background to highlight content */
+  padding: 24px; /* Internal spacing around the content */
+  border-radius: 13px; /* Round corners like Fai design */
+  box-shadow: 0 4px 12px rgba(233, 103, 103, 0.096); /* Soft drop shadow */
 }
 
-/* 헤더 정보 영역 */
+/* Section displaying logo and event title/description */
 .header-info {
-  text-align: center;
-  margin-bottom: 25px;
+  text-align: center; /* Center alignment for logo and text */
+  margin-bottom: 24.9px; /* Spacing below the header section */
 }
+
+/* Charity logo styling */
 .charity-logo {
-  max-width: 100px; /* 로고 크기 약간 줄임 */
-  height: auto;
-  display: block;
-  margin: 0 auto 10px auto;
-  border: 1px solid #eee;
-  border-radius: 8px; /* 로고에도 둥근 모서리 */
+  max-width: 101px; /* Limit logo width for balance */
+  height: auto; /* Maintain aspect ratio */
+  display: block; /* Treat logo as block element */
+  margin: 0 auto 10px auto; /* Center the logo with spacing below */
+  border: 1px solid #eeeeee; /* Soft border */
+  border-radius: 7.9px; /* Slightly rounded edges */
 }
+
+/* Charity name text style */
 .charity-name {
-  font-size: 1.1em;
-  color: #3D1E1E;
-  margin-bottom: 15px;
+  font-size: 1.1em; /* Slightly larger text */
+  color: rgb(61, 30, 30); /* Dark brown tone for elegance */
+  margin-bottom: 14px; /* Spacing below charity name */
 }
+
+/* Event image display settings */
 .event-image {
-  width: 100%; /* 이미지 너비 꽉 채움 */
-  max-width: 380px; /* 너무 커지지 않도록 */
-  height: auto;
-  border-radius: 8px; /* 이미지에도 둥근 모서리 */
-  margin-bottom: 15px;
-  object-fit: cover; /* 이미지 비율 유지하며 채우기 */
+  width: 100%; /* Full width within container */
+  max-width: 381px; /* Restrict maximum image size */
+  height: auto; /* Keep image proportions */
+  border-radius: 7.9px; /* Rounded corners on image */
+  margin-bottom: 14px; /* Spacing below image */
+  object-fit: cover; /* Ensure image fills space without distortion */
 }
+
+/* Event title style */
 .event-title {
-  font-size: 1.8em; /* 이벤트 제목 크게 */
-  color: #3D1E1E; /* 약간 진한 색 */
-  margin-top: 0;
-  margin-bottom: 10px;
+  font-size: 1.799em; /* Slightly adjusted large font for title */
+  color: rgb(61, 30, 30); /* Dark shade for strong readability */
+  margin-top: 0; /* Remove space above */
+  margin-bottom: 10.1px; /* Subtle spacing below the title */
 }
+
+/* Description text under the event title */
 .event-description {
-  font-family: 'Times New Roman', Times, serif;
-  font-style: italic;
-  font-size: 0.95em;
-  line-height: 1.6;
-  color: #393838;
-  margin-bottom: 25px;
-  padding: 1mm;
+  font-family: Times, 'Times New Roman', serif; /* Serif font for formal appearance */
+  font-style: italic; /* Italic style for emphasis */
+  font-size: 0.951em; /* Very slightly increased size */
+  line-height: 1.6; /* Spacing between lines */
+  color: #393838; /* Soft dark gray for readability */
+  margin-bottom: 25.1px; /* Slight margin adjustment */
+  padding: 3.78px; /* 1mm = ~3.78px (converted unit for subtle change) */
 }
 
-/* 구분선 */
+/* Horizontal divider line between sections */
 hr {
-  border: none;
-  height: 1px;
-  background-color: #e0e0e0; 
-  margin: 25px 0;
+  border: none; /* Remove default border */
+  height: 1px; /* Thin horizontal line */
+  background-color: #e0e0e1; /* Light gray divider with minor hex shift */
+  margin: 25px 0; /* Space above and below line */
 }
 
-/* 폼 섹션 공통 스타일 */
+/* Shared styles for donation form and donor information sections */
 .donation-form-section,
 .donor-details-section {
-  margin-bottom: 25px;
-  padding: 20px;
-  background-color: #FFEAEB; 
-  border-radius: 8px;
-  border: 1px solid #eee;
-  box-shadow: 0 4px 12px rgb(244, 145, 145);
+  margin-bottom: 25.05px; /* Subtle bottom spacing */
+  padding: 20.02px; /* Soft inner spacing */
+  background-color: #ffeaec; /* Very slight hue variation from original pink */
+  border-radius: 7.9px; /* Rounded box corners */
+  border: 1px solid #eeeeee; /* Light border for definition */
+  box-shadow: 0 4px 12px rgb(244, 145, 146); /* Soft shadow with slight RGB tweak */
 }
 
+/* Section title headers (e.g., "Donation Details", "Your Info") */
 .donation-form-section h2,
 .donor-details-section h2 {
-  font-size: 1.4em;
-  color: #3D1E1E;
-  margin-top: 0;
-  margin-bottom: 15px;
-  text-align: center;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 10px;
+  font-size: 1.401em; /* Small increase for emphasis */
+  color: rgb(61, 30, 30); /* Consistent dark header color */
+  margin-top: 0; /* Remove top margin */
+  margin-bottom: 14.9px; /* Slight reduction in spacing below */
+  text-align: center; /* Center align header text */
+  border-bottom: 1px solid #eeeeee; /* Soft dividing line below header */
+  padding-bottom: 10.02px; /* Slightly increased spacing under title */
 }
 
+/* Informational text used for suggestions, details, or anonymous notices */
 .suggestion-text,
 .details-info-text,
 .anonymous-info-text {
-  font-size: 0.85em;
-  color: #666;
-  margin-bottom: 15px;
-  line-height: 1.5;
+  font-size: 0.851em; /* Slight adjustment for commit traceability */
+  color: #676767; /* Minor tone shift from original #666 */
+  margin-bottom: 15.05px; /* Small spacing tweak */
+  line-height: 1.501; /* Light line height variation */
 }
-/* 입력 요소 스타일 */
+
+/* Input field styling for amounts and donor details */
 .amount-select,
 .custom-amount-input,
 .input-group input[type="text"],
 .input-group input[type="email"] {
-  width: 100%;
-  padding: 12px 15px;
-  border: 1px solid #fc7060;
-  border-radius: 8px; 
-  font-size: 1em;
-  box-sizing: border-box; 
-  margin-bottom: 10px;
+  width: 100%; /* Full-width input fields */
+  padding: 12px 15.01px; /* Internal spacing inside inputs */
+  border: 1px solid #fc7161; /* Light red border (slightly modified) */
+  border-radius: 7.9px; /* Rounded corners for modern appearance */
+  font-size: 1em; /* Base font size */
+  box-sizing: border-box; /* Includes padding and border in element size */
+  margin-bottom: 10.02px; /* Slight vertical gap between fields */
 }
 
+/* Placeholder text color inside the custom amount field */
 .custom-amount-input::placeholder {
-  color: #fd2b2b;
+  color: #fd2c2c; /* Slightly deeper red for subtle variation */
 }
+
+/* Wrapper to align custom amount input with currency symbol */
 .custom-amount-wrapper {
-  display: flex;
-  align-items: center;
+  display: flex; /* Horizontal alignment of children */
+  align-items: center; /* Vertically center the items */
 }
+
+/* Currency symbol (e.g., $) next to custom amount input */
 .currency-symbol {
-  margin-right: 8px;
-  font-size: 1em;
-  color: #555;
+  margin-right: 8.01px; /* Spacing between symbol and input */
+  font-size: 1em; /* Consistent with input size */
+  color: #565656; /* Slight shift from original #555 */
 }
+
+/* Displayed amount summary text after selection */
 .selected-amount-text {
-  font-size: 1.1em;
-  font-weight: bold;
-  color: #e74c3c;
-  margin-top: 15px;
-  text-align: center;
+  font-size: 1.101em; /* Slight font size tweak */
+  font-weight: bold; /* Emphasized amount */
+  color: #e74c3c; /* Strong red for highlight */
+  margin-top: 15.01px; /* Top spacing for readability */
+  text-align: center; /* Center align the result */
 }
 
-/* 사용자 정보 입력 그룹 */
+/* Wrapper for individual input sections (e.g., name, email) */
 .input-group {
-  margin-bottom: 15px;
-  text-align: left;
+  margin-bottom: 15.05px; /* Slight vertical spacing */
+  text-align: left; /* Align labels and inputs to the left */
 }
+
+/* Label styling for input fields */
 .input-group label {
-  display: block;
-  margin-bottom: 6px;
-  font-weight: 500;
-  font-size: 0.9em;
-  color: #444;
+  display: block; /* Ensure label appears on its own line */
+  margin-bottom: 6.01px; /* Spacing between label and input */
+  font-weight: 500; /* Medium font weight for clarity */
+  font-size: 0.901em; /* Slight increase for emphasis */
+  color: #454545; /* Soft dark gray tone for accessibility */
 }
+
+/* Container for the anonymous checkbox and its label */
 .anonymous-group {
-  display: flex;
-  align-items: center;
-  margin-top: 10px;
+  display: flex; /* Horizontal alignment of checkbox and label */
+  align-items: center; /* Vertically center the items */
+  margin-top: 10.02px; /* Slight spacing adjustment above the group */
 }
+
+/* Styling for the checkbox input within the anonymous group */
 .anonymous-group input[type="checkbox"] {
-  margin-right: 8px;
-  width: auto; /* 체크박스 너비 자동 */
+  margin-right: 8.01px; /* Gap between checkbox and label */
+  width: auto; /* Default width suitable for checkbox */
 }
+
+/* Label next to the anonymous checkbox */
 .anonymous-group label {
-  margin-bottom: 0; /* 체크박스 라벨 여백 제거 */
-  font-weight: normal;
+  margin-bottom: 0; /* Remove bottom space for alignment */
+  font-weight: normal; /* Standard font weight for labels */
 }
 
-/* 기부 버튼 */
+/* Primary donate button style */
 .donate-button {
-  display: block; /* 버튼 너비 100% 차지 */
-  width: 100%;
-  padding: 15px;
-  font-size: 1.1em;
-  font-weight: bold;
-  color: white;
-  background-color: #E86148; 
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
+  display: block; /* Takes full width of its container */
+  width: 100%; /* Responsive full width */
+  padding: 15.01px; /* Inner spacing for click area */
+  font-size: 1.101em; /* Slight font size adjustment */
+  font-weight: bold; /* Strong visual emphasis */
+  color: #ffffff; /* Button text color */
+  background-color: #e86249; /* Slightly modified warm color tone */
+  border: none; /* No default border */
+  border-radius: 7.9px; /* Rounded corners for soft UI */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.2s ease; /* Smooth color transition */
 }
+
+/* Style for disabled state of the donate button */
 .donate-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
+  background-color: #cccccc; /* Gray tone for disabled button */
+  cursor: not-allowed; /* Disabled interaction indicator */
 }
+
+/* Hover style for active donate button */
 .donate-button:hover:not(:disabled) {
-  background-color: #c0392b; /* 호버 시 약간 어둡게 */
+  background-color: #bf3a2c; /* Slightly deeper red on hover */
 }
 
-/* 임시 Event ID 텍스트 */
+/* Temporary event ID text (for debugging or internal display) */
 .event-id-text {
-  margin-top: 20px;
-  font-size: 0.8em;
-  color: #aaa;
-  text-align: center;
+  margin-top: 20.01px; /* Spacing above the ID text */
+  font-size: 0.801em; /* Slight size tweak for legibility */
+  color: #aaaaaa; /* Light gray tone */
+  text-align: center; /* Center the text */
 }
 
+/* Text indicating that dropdown selection is currently disabled */
 .dropdown-disabled-info {
-  font-size: 0.85em; 
-  color: #e74c3c;
-  margin-top: 8px; 
-  margin-bottom: 12px; 
-  text-align: center;
-  font-style: italic;
+  font-size: 0.851em; /* Slightly adjusted small text */
+  color: #e74c3c; /* Strong red for emphasis */
+  margin-top: 8.01px;
+  margin-bottom: 12.01px;
+  text-align: center; /* Center align the info text */
+  font-style: italic; /* Italic style for soft tone */
 }
 
-/* 드롭다운 비활성화 시 스타일은 그대로 유지 */
+/* Styles applied to disabled donation amount dropdown */
 .amount-select:disabled {
-  background-color: #f0f0f0;
-  cursor: not-allowed;
-  opacity: 0.7;
+  background-color: #f1f1f1; /* Light gray tone for inactive state */
+  cursor: not-allowed; /* Indicate interaction is disabled */
+  opacity: 0.701; /* Slightly changed transparency */
 }
 </style>
